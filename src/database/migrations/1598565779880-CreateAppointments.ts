@@ -30,8 +30,8 @@ export default class CreateAppointments1598565779880
                     {
                         name: 'udated_at',
                         type: 'timestamp',
-                        default: 'now()'
-                    }
+                        default: 'now()',
+                    },
                 ],
             }),
         );
