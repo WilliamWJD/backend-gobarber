@@ -18,9 +18,9 @@ class SendForgotPasswordService {
         @inject('MailProvider')
         private mailProvider: IMailProvider,
 
-        @inject('UserTokens')
+        @inject('UserTokensRepository')
         private userTokensRepository: IUsersTokenRepository,
-    ) { }
+    ) {}
 
     public async execute({ email }: IRequest): Promise<void> {
         const user = await this.usersRepository.findByEmail(email);
