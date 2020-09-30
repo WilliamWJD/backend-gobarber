@@ -7,21 +7,28 @@ import FakeUserRepository from '../repositories/Fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FaskeHashProvider';
 import CreateUserService from './CreateUsersService';
 
+let fakeUsersRepository: FakeUserRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUser: CreateUserService;
+let authenticateUserService: AuthenticateUserService;
+
 describe('AuthenticateUser', () => {
+    beforeEach(() => {
+        fakeUsersRepository = new FakeUserRepository();
+        fakeHashProvider = new FakeHashProvider();
+
+        createUser = new CreateUserService(
+            fakeUsersRepository,
+            fakeHashProvider,
+        );
+
+        authenticateUserService = new AuthenticateUserService(
+            fakeUsersRepository,
+            fakeHashProvider,
+        );
+    });
+
     it('should be able to authenticate', async () => {
-        const fakeUsersRepository = new FakeUserRepository();
-        const fakeHashProvider = new FakeHashProvider();
-
-        const createUser = new CreateUserService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
-
-        const authenticateUserService = new AuthenticateUserService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
-
         const user = await createUser.execute({
             name: 'William',
             email: 'william@william.com.br',
@@ -38,13 +45,8 @@ describe('AuthenticateUser', () => {
     });
 
     it('should not be able to authenticate with non existing user', () => {
-        const fakeUsersRepository = new FakeUserRepository();
-        const fakeHashProvider = new FakeHashProvider();
-
-        const authenticateUserService = new AuthenticateUserService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
+        fakeUsersRepository = new FakeUserRepository();
+        fakeHashProvider = new FakeHashProvider();
 
         expect(
             authenticateUserService.execute({
@@ -55,15 +57,10 @@ describe('AuthenticateUser', () => {
     });
 
     it('should be able to authenticate with wrong password', async () => {
-        const fakeUsersRepository = new FakeUserRepository();
-        const fakeHashProvider = new FakeHashProvider();
+        fakeUsersRepository = new FakeUserRepository();
+        fakeHashProvider = new FakeHashProvider();
 
-        const createUser = new CreateUserService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
-
-        const authenticateUserService = new AuthenticateUserService(
+        createUser = new CreateUserService(
             fakeUsersRepository,
             fakeHashProvider,
         );
