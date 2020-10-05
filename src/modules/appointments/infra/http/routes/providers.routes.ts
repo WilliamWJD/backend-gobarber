@@ -11,10 +11,12 @@ const providersRoute = Router();
 providersRoute.use(ensureAuthenticated);
 
 providersRoute.get('/', ProviderController.index);
+
 providersRoute.get(
     '/:provider_id/month-availability',
     ProviderMonthAvailability.index,
 );
+
 providersRoute.get(
     '/:provider_id/day-availability',
     ProviderDayAvailability.index,
