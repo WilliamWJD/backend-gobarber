@@ -1,5 +1,6 @@
 module.exports = [
     {
+        "name": "default",
         "type": "postgres",
         "host": process.env.DB_HOST,
         "port": process.env.DB_PORT,
@@ -17,6 +18,7 @@ module.exports = [
         }
     },
     {
+        "name": "mongo",
         "type": "mongodb",
         "host": process.env.DB_MONGO_HOST,
         "port": process.env.DB_MONGO_PORT,
