@@ -8,6 +8,8 @@ class AppointmentController {
     public async create(req: Request, res: Response): Promise<Response> {
         const { provider_id, date } = req.body;
 
+        console.log(req.body);
+
         const parsedDate = parseISO(date);
 
         const createAppointment = container.resolve(CreateAppointmentService);
