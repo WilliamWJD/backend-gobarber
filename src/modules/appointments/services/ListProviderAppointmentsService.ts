@@ -27,14 +27,24 @@ class ListProviderAppointmentsService {
         year,
         provider_id,
     }: IRequest): Promise<Appointment[]> {
-        const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
-            {
-                day,
-                month,
-                year,
-                provider_id,
-            },
+        const cacheKey = `provider-appointments:${provider_id}-${year}-${month}-${day}`;
+
+        let appointments = await this.cacheProvider.recover<Appointment[]>(
+            cacheKey,
         );
+
+        if (!appointments) {
+            appointments = await this.appointmentsRepository.findAllInDayFromProvider(
+                {
+                    day,
+                    month,
+                    year,
+                    provider_id,
+                },
+            );
+            console.log('Buscou do banco');
+            await this.cacheProvider.save(cacheKey, appointments);
+        }
 
         return appointments;
     }
