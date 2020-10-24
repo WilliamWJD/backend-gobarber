@@ -29,6 +29,8 @@ class ListProvidersServices {
             });
 
             await this.cacheProvider.save(`providers-list:${user_id}`, users);
+
+            console.log('CRIOU O CACHE');
         }
 
         return users;

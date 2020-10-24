@@ -17,6 +17,15 @@ class RedisCacheProvider implements ICacheProvider {
         return null;
     }
 
+    public async invalidatePrefix(prefix: string): Promise<void> {
+        const keys = await this.client.keys(`${prefix}:*`);
+        const pipeline = this.client.pipeline();
+        keys.forEach(key => {
+            pipeline.del(key);
+        });
+        await pipeline.exec();
+    }
+
     public async recover<T>(key: string): Promise<T | null> {
         const data = await this.client.get(key);
         if (!data) {
