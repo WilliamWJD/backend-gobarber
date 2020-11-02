@@ -15,9 +15,12 @@ class AppointmentsRepository implements IAppointmentsRepository {
     }
 
     // NÃO PERMITE A CRIAÇÃO DE UM AGENDAMENTO NO MESMO HORÁRIO
-    public async findByDate(date: Date): Promise<Appointment | undefined> {
+    public async findByDate(
+        date: Date,
+        provider_id: string,
+    ): Promise<Appointment | undefined> {
         const findAppointment = await this.ormRepository.findOne({
-            where: { date },
+            where: { date, provider_id },
         });
 
         return findAppointment || undefined;
