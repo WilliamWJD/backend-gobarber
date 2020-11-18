@@ -12,6 +12,7 @@ class ProviderAppointmentsController {
         const listProviderAppointments = container.resolve(
             ListProviderAppointmentsService,
         );
+
         const appointments = await listProviderAppointments.execute({
             day: Number(day),
             month: Number(month),
